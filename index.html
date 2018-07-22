@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>&#65279;</title>
+		<link rel="shortcut icon" type="image/x-icon" href="icons/yuen.png" />
+		<style>
+			body { 
+				margin: 0;
+			}
+			canvas { 
+				width: 100%; 
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="js/three.js"></script>
+		<script src="js/TrackballControls.js"></script>
+		<script>
+
+			// set up scene, camera, renderer
+			var scene = new THREE.Scene();
+			scene.background = new THREE.Color(0xffffff);
+			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+
+			// controls setup (for scrolling)
+			var controls = new THREE.TrackballControls(camera, renderer.domElement);
+
+			// adjust camera position
+			camera.position.z = 125;
+			camera.position.y = 15;
+
+			// create particle wave
+			var waveGeometry = new THREE.Geometry();
+			var SEPARATION = 4;
+			var AMOUNTX = 100;
+			var AMOUNTZ = 100;
+			for (var i = 0; i < AMOUNTX; i++) {
+				for (var j = 0; j < AMOUNTZ; j++) {
+					var particle = new THREE.Vector3();
+					particle.x = i*SEPARATION-((100*SEPARATION)/2);
+					particle.y = 0;
+					particle.z = j*SEPARATION-((100*SEPARATION)/2);
+					waveGeometry.vertices.push(particle);
+				}
+			}
+			var particleMaterial = new THREE.PointsMaterial({color: 0x000000, size: .5});
+			var wave = new THREE.Points(waveGeometry, particleMaterial);
+			scene.add(wave);
+
+			// animate the particle wave (default wave motion)
+			var count = 0;
+			function animateWave() {
+				var index = 0;
+				for (var i = 0; i < AMOUNTX; i++) {
+					for (var j = 0; j < AMOUNTZ; j++) {
+						var current = waveGeometry.vertices[index++];
+						current.y = ((Math.sin((i+count)*0.3)*2)+(Math.sin((j+count)*0.5)*2));
+						waveGeometry.verticesNeedUpdate = true;
+					}
+				}
+				count += 0.080;
+			}
+
+			var animate = function () {
+				controls.update();
+				requestAnimationFrame(animate);
+				renderer.render(scene, camera);
+				animateWave();
+			};
+
+			animate();
+
+		</script>
+	</body>
+</html>
