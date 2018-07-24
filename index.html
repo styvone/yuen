@@ -37,8 +37,8 @@
 			// create particle wave
 			var waveGeometry = new THREE.Geometry();
 			var SEPARATION = 4;
-			var AMOUNTX = 100;
-			var AMOUNTZ = 100;
+			var AMOUNTX = 96;
+			var AMOUNTZ = 96;
 			for (var i = 0; i < AMOUNTX; i++) {
 				for (var j = 0; j < AMOUNTZ; j++) {
 					var particle = new THREE.Vector3();
@@ -54,17 +54,32 @@
 
 			// animate the particle wave (default wave motion)
 			var count = 0;
-			function animateWave(resize) {
+			function animateWave() {
 				var index = 0;
 				for (var i = 0; i < AMOUNTX; i++) {
 					for (var j = 0; j < AMOUNTZ; j++) {
 						var current = waveGeometry.vertices[index++];
-						current.y = ((Math.sin((i+count)*0.3)*2)+(Math.sin((j+count)*0.5)*2));
-						current.y = current.y*resize;
+						current.y = (Math.sin((i+count)*0.3)*2)+(Math.sin((j+count)*0.5)*2);
 						waveGeometry.verticesNeedUpdate = true;
 					}
 				}
 				count += 0.080;
+			}
+
+			// animate on sound
+			function disturb(arr) {
+				var index = 0;
+				for (var freqIndex = 0; freqIndex < 16; freqIndex++) {
+					var freq = arr[freqIndex];
+					var adjust = scaleBetween(freq, 1, 10, 0, 255);
+					for (var i = 0; i < 6; i++) {
+						for (var j = 0; j < AMOUNTZ; j++) {
+							var current = waveGeometry.vertices[index++];
+							current.y += adjust;
+							waveGeometry.verticesNeedUpdate = true;
+						}
+					}
+				}
 			}
 
 			// audio setup:
@@ -91,9 +106,9 @@
 				return (maxAllowed-minAllowed)*(unscaledNum-min)/(max-min)+minAllowed;
 			}
 			function audioUpdate() {
-				var data = analyser.getAverageFrequency();
-				data = scaleBetween(data, 1, 10, 0, 255);
-				animateWave(data);
+				var data = analyser.getFrequencyData();
+				animateWave();
+				disturb(data);
 			}
 
 			// animate loop
