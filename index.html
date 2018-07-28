@@ -66,22 +66,6 @@
 				count += 0.080;
 			}
 
-			// animate on sound
-			function disturb(arr) {
-				var index = 0;
-				for (var freqIndex = 0; freqIndex < 16; freqIndex++) {
-					var freq = arr[freqIndex];
-					var adjust = scaleBetween(freq, 1, 10, 0, 255);
-					for (var i = 0; i < 6; i++) {
-						for (var j = 0; j < AMOUNTZ; j++) {
-							var current = waveGeometry.vertices[index++];
-							current.y += adjust;
-							waveGeometry.verticesNeedUpdate = true;
-						}
-					}
-				}
-			}
-
 			// audio setup:
 			// create audio listener, add to camera
 			var listener = new THREE.AudioListener();
@@ -108,7 +92,6 @@
 			function audioUpdate() {
 				var data = analyser.getFrequencyData();
 				animateWave();
-				disturb(data);
 			}
 
 			// animate loop
