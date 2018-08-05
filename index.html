@@ -19,12 +19,29 @@
 				left: 5px;
 				top: 5px;
 			}
+			#youtube-audio, #play-icon {
+				position: fixed;
+				width: 4em;
+				height: auto;
+				right: 5px;
+				top: 5px;
+			}
+			#play-icon:hover {
+				cursor: pointer;
+			}
 		</style>
 	</head>
 	<body>
 		<div>
 			<img id="title" src="icons/title.png"/>
 		</div>
+
+		<div data-autoplay="0" data-loop="1" id="youtube-audio">
+			<img id="play-icon"/>
+		</div>
+		<script src="https://www.youtube.com/iframe_api"></script>
+		<script src="js/youtubeAudio.js"></script>
+
 		<script src="js/three.js"></script>
 		<script src="js/TrackballControls.js"></script>
 		<script>
@@ -75,6 +92,7 @@
 				count += 0.080;
 			}
 
+			/*
 			// audio setup:
 			// create audio listener, add to camera
 			var listener = new THREE.AudioListener();
@@ -92,6 +110,8 @@
 			);
 			// add sound to wave
 			wave.add(sound);
+			*/
+
 
 			// audio analyzer setup:
 			var amplitude = 2;
