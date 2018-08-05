@@ -12,16 +12,25 @@
 				width: 100%; 
 				height: 100%;
 			}
+			#title {
+				position: fixed;
+				width: 6em;
+				height: auto;
+				left: 5px;
+				top: 5px;
+			}
 		</style>
 	</head>
 	<body>
+		<div>
+			<img id="title" src="icons/title.png"/>
+		</div>
 		<script src="js/three.js"></script>
 		<script src="js/TrackballControls.js"></script>
 		<script>
-
 			// set up scene, camera, renderer
 			var scene = new THREE.Scene();
-			scene.background = new THREE.Color(0xffffff);
+			scene.background = new THREE.Color(0x000000);
 			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
@@ -48,7 +57,7 @@
 					waveGeometry.vertices.push(particle);
 				}
 			}
-			var particleMaterial = new THREE.PointsMaterial({color: 0x000000, size: .5});
+			var particleMaterial = new THREE.PointsMaterial({color: 0xffffff, size: .5});
 			var wave = new THREE.Points(waveGeometry, particleMaterial);
 			scene.add(wave);
 
@@ -74,7 +83,7 @@
 			var sound = new THREE.PositionalAudio(listener);
 			// load the song and play it
 			var audioLoader = new THREE.AudioLoader();
-			audioLoader.load( 'music/i don\'t wanna waste my time.mp3',
+			audioLoader.load('music/i don\'t wanna waste my time.mp3',
 				function(buffer) {
 					sound.setBuffer(buffer);
 					sound.setRefDistance(100);
@@ -83,6 +92,7 @@
 			);
 			// add sound to wave
 			wave.add(sound);
+
 
 			// audio analyzer setup:
 			var analyser = new THREE.AudioAnalyser(sound, 32);
@@ -93,6 +103,7 @@
 				var data = analyser.getFrequencyData();
 				animateWave();
 			}
+
 
 			// animate loop
 			var animate = function () {
