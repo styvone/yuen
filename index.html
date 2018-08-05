@@ -40,8 +40,8 @@
 			var controls = new THREE.TrackballControls(camera, renderer.domElement);
 
 			// adjust camera position
-			camera.position.z = 125;
-			camera.position.y = 15;
+			camera.position.z = 150;
+			camera.position.y = 30;
 
 			// create particle wave
 			var waveGeometry = new THREE.Geometry();
@@ -63,12 +63,12 @@
 
 			// animate the particle wave (default wave motion)
 			var count = 0;
-			function animateWave() {
+			function animateWave(amp) {
 				var index = 0;
 				for (var i = 0; i < AMOUNTX; i++) {
 					for (var j = 0; j < AMOUNTZ; j++) {
 						var current = waveGeometry.vertices[index++];
-						current.y = (Math.sin((i+count)*0.3)*2)+(Math.sin((j+count)*0.5)*2);
+						current.y = (Math.sin((i+count)*0.3)*amp)+(Math.sin((j+count)*0.5)*amp);
 						waveGeometry.verticesNeedUpdate = true;
 					}
 				}
@@ -93,17 +93,39 @@
 			// add sound to wave
 			wave.add(sound);
 
-
 			// audio analyzer setup:
+			var amplitude = 2;
 			var analyser = new THREE.AudioAnalyser(sound, 32);
 			function scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max) {
 				return (maxAllowed-minAllowed)*(unscaledNum-min)/(max-min)+minAllowed;
 			}
-			function audioUpdate() {
-				var data = analyser.getFrequencyData();
-				animateWave();
+			function getBass() {
+				var frequencyData = Array.from(analyser.getFrequencyData());
+				var volume = 0;
+				for (var i = 0; i < frequencyData.length/2; i++) {
+					volume += frequencyData[i];
+				}
+				volume = volume/(frequencyData.length/2);
+				return (volume);
 			}
-
+			function getTreble() {
+				var frequencyData = Array.from(analyser.getFrequencyData());
+				var volume = 0;
+				for (var i = frequencyData.length/2; i < frequencyData.length; i++) {
+					volume += frequencyData[i];
+				}
+				volume = volume/(frequencyData.length/2);
+				return (volume);
+			}
+			function scalePoints(value) {
+				wave.material.size = value;
+			}
+			function audioUpdate() {
+				var bass = scaleBetween(getBass(), 2, 20, 0, 255);
+				var treble = (scaleBetween(getTreble(), .5, 3, 0, 255));
+				scalePoints(treble);
+				animateWave(bass);
+			}
 
 			// animate loop
 			var animate = function () {
