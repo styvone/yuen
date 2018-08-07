@@ -1,0 +1,28 @@
+{
+  "name": "yuen",
+  "version": "1.0.0",
+  "description": "sound x visuals",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/styvone/yuen.git"
+  },
+  "author": "styvone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/styvone/yuen/issues"
+  },
+  "homepage": "https://github.com/styvone/yuen#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "ffmpeg": "0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "through2": "^2.0.3",
+    "xtend": "^4.0.1",
+    "youtube-audio-stream": "^0.2.0",
+    "ytdl-core": "^0.24.0"
+  }
+}
