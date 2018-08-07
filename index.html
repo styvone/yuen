@@ -4,6 +4,7 @@
 		<meta charset=utf-8>
 		<title>&#65279;</title>
 		<link rel="shortcut icon" type="image/x-icon" href="icons/yuen.png" />
+		<link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
 		<style>
 			body { 
 				margin: 0;
@@ -19,15 +20,46 @@
 				left: 5px;
 				top: 5px;
 			}
-			#youtube-audio, #play-icon {
+			#searchBar {
+				box-sizing:border-box;
+				font-family: 'Rubik', sans-serif;
+				height: 2rem;
+				font-size: 4vh;
+				width: 100%;
+			}
+			#inputWrapper{
+				padding: 0;
+			}
+			.dropElement {
+				font-family: 'Rubik', sans-serif;
+				list-style-type: none;
+				font-size: 4vh;
+				color: white;
+			}
+			li {
+				border: solid;
+				border-width: thin;
+				border-bottom: none;
+				background-color: black;
+				border-color: white;
+			}
+			li:last-child {
+				border: solid;
+				border-width: thin;
+				background-color: black;
+				border-color: white;
+			}
+			li:hover {
+				cursor: pointer;
+				background-color: white;
+				color: black;
+			}
+			#searchBarDiv {
 				position: fixed;
-				width: 4em;
-				height: auto;
 				right: 5px;
 				top: 5px;
-			}
-			#play-icon:hover {
-				cursor: pointer;
+				width: 30em;
+				height: 15em;
 			}
 		</style>
 	</head>
@@ -35,8 +67,17 @@
 		<div>
 			<img id="title" src="icons/title.png"/>
 		</div>
+
+		<div id="searchBarDiv">
+			<div id="inputWrapper">
+				<input id="searchBar" type="input" placeholder="search for a song..."></input>
+			</div>
+			<div id="mountPoint"></div>
+		</div>
+
 		<script src="js/three.js"></script>
 		<script src="js/TrackballControls.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script>
 			// set up scene, camera, renderer
 			var scene = new THREE.Scene();
@@ -90,9 +131,9 @@
 			var analyser = context.createAnalyser();
 			analyser.fftSize = 32;
 			var source, frequencyData;
-			function loadSound() {
+			function loadSound(vidID) {
 				var request = new XMLHttpRequest();
-				request.open("GET", "http://localhost:3000/stream/pPKx-fon1nY", true); 
+				request.open("GET", window.location.href+"stream/"+vidID, true); 
 				request.responseType = "arraybuffer"; 
 				request.onload = function() {
 					var Data = request.response;
@@ -110,7 +151,55 @@
 				});
 			}
 			var freqDataArr = new Uint8Array(analyser.frequencyBinCount);
-			loadSound();
+
+			// search bar processing
+			function buildURL(inputString) {
+				const reqURL = 'https://www.googleapis.com/youtube/v3/search?';
+				const key = 'AIzaSyDxh3kaGDIm8HagG7MGCchvcY5jLpDSHoM';
+				let resURL = reqURL + 'part=snippet&maxResults=5&order=relevance&';
+				resURL += 'q='+encodeURIComponent(inputString+' lyric video').replace(/%20/g, "+");
+				resURL += '&type=video&key=' + key;
+				return (resURL);
+			}
+			var mountDiv = document.getElementById('mountPoint');
+			$('#searchBar').keyup(function(e) {
+				const inputRaw = document.querySelector('#searchBar').value;
+				const inputString = String(inputRaw);
+				if (e.which === 13) {
+					while (mountDiv.firstChild) {
+					    mountDiv.removeChild(mountDiv.firstChild);
+					}
+					fetch(buildURL(inputString), {
+						method: 'GET',
+					})
+					.then(response => response.json())
+					.then(json => {
+						if (json.items.length > 0) {
+							let i = 0;
+							while (i < 5) {
+								const vidID = json.items[i].id.videoId;
+								const title = json.items[i].snippet.title;
+								mountDiv = document.getElementById('mountPoint');
+								var searchDiv = document.createElement('li');
+								searchDiv.setAttribute('class', 'dropElement');
+								searchDiv.innerHTML = json.items[i].snippet.title;
+								searchDiv.addEventListener('click', function() {
+									loadSound(vidID);
+									$('#searchBar').val(title);
+									while (mountDiv.firstChild) {
+									    mountDiv.removeChild(mountDiv.firstChild);
+									}
+								});
+								mountDiv.appendChild(searchDiv);
+								i++;
+							};
+						}
+					});
+				}
+				if (e.which === 8) {
+					return (false);
+				}
+			});
 
 			var amplitude = 2;
 			function scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max) {
