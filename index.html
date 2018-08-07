@@ -11,14 +11,19 @@
 		<div>
 			<img id="title" src="icons/title.png"/>
 		</div>
-
 		<div id="searchBarDiv">
 			<div id="inputWrapper">
 				<input id="searchBar" type="input" placeholder="search for a song..."></input>
 			</div>
 			<div id="mountPoint"></div>
+			<div class="spinner" id="spinner">
+			  <div class="rect1"></div>
+			  <div class="rect2"></div>
+			  <div class="rect3"></div>
+			  <div class="rect4"></div>
+			  <div class="rect5"></div>
+			</div>
 		</div>
-
 		<script src="js/three.js"></script>
 		<script src="js/TrackballControls.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -93,6 +98,7 @@
 					source.connect(analyser);
 					source.start(context.currentTime);
 				});
+				loading(true);
 			}
 			var freqDataArr = new Uint8Array(analyser.frequencyBinCount);
 
@@ -105,10 +111,21 @@
 				resURL += '&type=video&key=' + key;
 				return (resURL);
 			}
+			function loading(loadedAudio) {
+				var x = document.getElementById('spinner');
+				if (loadedAudio) {
+					x.style.display = 'none';
+				} else {
+					x.style.display = 'block';
+				}
+			}
 			var mountDiv = document.getElementById('mountPoint');
 			$('#searchBar').keyup(function(e) {
 				const inputRaw = document.querySelector('#searchBar').value;
 				const inputString = String(inputRaw);
+				if (e.which === 8) {
+					return (false);
+				}
 				if (e.which === 13) {
 					while (mountDiv.firstChild) {
 					    mountDiv.removeChild(mountDiv.firstChild);
@@ -128,6 +145,7 @@
 								searchDiv.setAttribute('class', 'dropElement');
 								searchDiv.innerHTML = title;
 								searchDiv.addEventListener('click', function() {
+									loading(false);
 									loadSound(vidID);
 									$('#searchBar').val(title);
 									while (mountDiv.firstChild) {
@@ -139,9 +157,6 @@
 							};
 						}
 					});
-				}
-				if (e.which === 8) {
-					return (false);
 				}
 			});
 
