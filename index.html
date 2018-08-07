@@ -5,63 +5,7 @@
 		<title>&#65279;</title>
 		<link rel="shortcut icon" type="image/x-icon" href="icons/yuen.png" />
 		<link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
-		<style>
-			body { 
-				margin: 0;
-			}
-			canvas { 
-				width: 100%; 
-				height: 100%;
-			}
-			#title {
-				position: fixed;
-				width: 6em;
-				height: auto;
-				left: 5px;
-				top: 5px;
-			}
-			#searchBar {
-				box-sizing:border-box;
-				font-family: 'Rubik', sans-serif;
-				height: 2rem;
-				font-size: 4vh;
-				width: 100%;
-			}
-			#inputWrapper{
-				padding: 0;
-			}
-			.dropElement {
-				font-family: 'Rubik', sans-serif;
-				list-style-type: none;
-				font-size: 4vh;
-				color: white;
-			}
-			li {
-				border: solid;
-				border-width: thin;
-				border-bottom: none;
-				background-color: black;
-				border-color: white;
-			}
-			li:last-child {
-				border: solid;
-				border-width: thin;
-				background-color: black;
-				border-color: white;
-			}
-			li:hover {
-				cursor: pointer;
-				background-color: white;
-				color: black;
-			}
-			#searchBarDiv {
-				position: fixed;
-				right: 5px;
-				top: 5px;
-				width: 30em;
-				height: 15em;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
 		<div>
@@ -182,7 +126,7 @@
 								mountDiv = document.getElementById('mountPoint');
 								var searchDiv = document.createElement('li');
 								searchDiv.setAttribute('class', 'dropElement');
-								searchDiv.innerHTML = json.items[i].snippet.title;
+								searchDiv.innerHTML = title;
 								searchDiv.addEventListener('click', function() {
 									loadSound(vidID);
 									$('#searchBar').val(title);
