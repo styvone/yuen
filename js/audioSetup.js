@@ -33,3 +33,16 @@ function process(Data) {
 	loading(true);
 }
 var freqDataArr = new Uint8Array(analyser.frequencyBinCount);
+
+var paused = false;
+function pausePlay() {
+	if (paused) {
+		context.resume();
+		paused = false;
+	} else {
+		context.suspend();
+		paused = true;
+	}
+}
+
+$('#pause-play').click(pausePlay);

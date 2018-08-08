@@ -65,6 +65,16 @@ $('#searchBarDiv, #title, canvas').click(function(e) {
 		clearSearch();
 	}
 });
+
+// NOT WORKING!!!
+$('window').keypress(function(e) {
+	if (e.which === 32) {
+		console.log('hI');
+		pausePlay();
+	}
+});
+
+
 $('#searchBar').click(function(e) {
 	e.stopPropagation();
 });
