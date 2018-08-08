@@ -47,6 +47,7 @@ $('#searchBar').keyup(function(e) {
 					searchDiv.innerHTML = title;
 					searchDiv.addEventListener('click', function() {
 						loading(false);
+						document.getElementById('searchBar').disabled = true;
 						loadSound(vidID);
 						$('#searchBar').val(title);
 						clearSearch();
@@ -55,15 +56,20 @@ $('#searchBar').keyup(function(e) {
 					i++;
 				};
 			}
+			$('#searchBarDiv, #title, canvas').click(function(e) {
+				if (!document.getElementById('searchBar').disabled) {
+					if (mountDiv.firstChild) {
+						$('#searchBar').val('');
+						clearSearch();
+					}
+					if (!(mountDiv.firstChild) && $('#searchBar').val()) {
+						$('#searchBar').val('');
+					}
+				}
+			});
+			$('#searchBar').click(function(e) {
+				e.stopPropagation();
+			});
 		});
 	}
-});
-$('#searchBarDiv, #title, canvas').click(function(e) {
-	if (mountDiv.firstChild || $('#searchBar').val()) {
-		$('#searchBar').val('');
-		clearSearch();
-	}
-});
-$('#searchBar').click(function(e) {
-	e.stopPropagation();
 });

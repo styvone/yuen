@@ -29,6 +29,7 @@ function process(Data) {
 		source.connect(analyser);
 		source.start(context.currentTime);
 	});
+	document.getElementById('searchBar').disabled = false;
 	loading(true);
 }
 var freqDataArr = new Uint8Array(analyser.frequencyBinCount);

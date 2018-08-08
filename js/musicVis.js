@@ -28,7 +28,7 @@ function scalePoints(value) {
 }
 function audioUpdate() {
 	var bass = scaleBetween(getBass(), 2, 20, 0, 255);
-	var treble = (scaleBetween(getTreble(), .5, 3, 0, 255));
+	var treble = scaleBetween(getTreble(), .5, 3, 0, 255);
 	scalePoints(treble);
 	animateWave(bass);
 }
