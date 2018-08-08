@@ -9,10 +9,13 @@ function buildURL(inputString) {
 }
 function loading(loadedAudio) {
 	var x = document.getElementById('spinner');
+	var y = document.getElementById('pause-play');
 	if (loadedAudio) {
 		x.style.display = 'none';
+		y.style.display = 'block';
 	} else {
 		x.style.display = 'block';
+		y.style.display = 'none';
 	}
 }
 function clearSearch() {
@@ -65,19 +68,19 @@ $('#searchBarDiv, #title, canvas').click(function(e) {
 		clearSearch();
 	}
 });
-
-// NOT WORKING!!!
-$('window').keypress(function(e) {
-	if (e.which === 32) {
-		console.log('hI');
-		pausePlay();
-	}
-});
-
-
 $('#searchBar').click(function(e) {
 	e.stopPropagation();
 });
 $('#searchBar').focus(function(e) {
 	$('#searchBar').val('');
+});
+
+// pressing space --> pause/play music
+window.addEventListener('keyup', function(e) {
+	if (e.keyCode === 32) {
+		pausePlay();
+	}
+});
+document.getElementById('searchBar').addEventListener('keyup', function(e) {
+	e.stopPropagation();
 });
