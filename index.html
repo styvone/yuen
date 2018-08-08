@@ -24,9 +24,12 @@
 			  <div class="rect5"></div>
 			</div>
 		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="js/three.js"></script>
 		<script src="js/TrackballControls.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="js/audioSetup.js"></script>
+		<script src="js/searchBar.js"></script>
+		<script src="js/musicVis.js"></script>
 		<script>
 			// set up scene, camera, renderer
 			var scene = new THREE.Scene();
@@ -75,137 +78,6 @@
 				count += 0.080;
 			}
 
-			// audio setup:
-			var context = new AudioContext();
-			var analyser = context.createAnalyser();
-			analyser.fftSize = 32;
-			var source, frequencyData;
-			function loadSound(vidID) {
-				var request = new XMLHttpRequest();
-				request.open("GET", window.location.href+"stream/"+vidID, true); 
-				request.responseType = "arraybuffer"; 
-				request.onload = function() {
-					var Data = request.response;
-					process(Data);
-				};
-				request.send();
-			}
-			function process(Data) {
-				source = context.createBufferSource();
-				context.decodeAudioData(Data, function(buffer){
-					source.buffer = buffer;
-					source.connect(context.destination);
-					source.connect(analyser);
-					source.start(context.currentTime);
-				});
-				loading(true);
-			}
-			var freqDataArr = new Uint8Array(analyser.frequencyBinCount);
-
-			// search bar processing
-			function buildURL(inputString) {
-				const reqURL = 'https://www.googleapis.com/youtube/v3/search?';
-				const key = 'AIzaSyDxh3kaGDIm8HagG7MGCchvcY5jLpDSHoM';
-				let resURL = reqURL + 'part=snippet&maxResults=5&order=relevance&';
-				resURL += 'q='+encodeURIComponent(inputString+' lyric video').replace(/%20/g, "+");
-				resURL += '&type=video&key=' + key;
-				return (resURL);
-			}
-			function loading(loadedAudio) {
-				var x = document.getElementById('spinner');
-				if (loadedAudio) {
-					x.style.display = 'none';
-				} else {
-					x.style.display = 'block';
-				}
-			}
-			function clearSearch() {
-				while (mountDiv.firstChild) {
-				    mountDiv.removeChild(mountDiv.firstChild);
-				}
-			}
-			var mountDiv = document.getElementById('mountPoint');
-			$('#searchBar').keyup(function(e) {
-				const inputRaw = document.querySelector('#searchBar').value;
-				const inputString = String(inputRaw);
-				if (e.which === 8) {
-					return (false);
-				}
-				if (e.which === 13) {
-					while (mountDiv.firstChild) {
-					    mountDiv.removeChild(mountDiv.firstChild);
-					}
-					fetch(buildURL(inputString), {
-						method: 'GET',
-					})
-					.then(response => response.json())
-					.then(json => {
-						if (json.items.length > 0) {
-							let i = 0;
-							while (i < 5) {
-								const vidID = json.items[i].id.videoId;
-								const title = json.items[i].snippet.title;
-								mountDiv = document.getElementById('mountPoint');
-								var searchDiv = document.createElement('li');
-								searchDiv.setAttribute('class', 'dropElement');
-								searchDiv.innerHTML = title;
-								searchDiv.addEventListener('click', function() {
-									loading(false);
-									loadSound(vidID);
-									$('#searchBar').val(title);
-									clearSearch();
-								});
-								mountDiv.appendChild(searchDiv);
-								i++;
-							};
-						}
-					});
-				}
-			});
-			$('#searchBar').focus(function(e) {
-			    $('#searchBar').val('');
-			});
-			$('canvas, #searchBarDiv, #title').click(function(e) {
-				if (mountDiv.firstChild) {
-					$('#searchBar').val('');
-					clearSearch();
-				}
-			});
-			
-			var amplitude = 2;
-			function scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max) {
-				return (maxAllowed-minAllowed)*(unscaledNum-min)/(max-min)+minAllowed;
-			}
-			function getBass() {
-				analyser.getByteFrequencyData(freqDataArr);
-				var frequencyData = freqDataArr;
-				var volume = 0;
-				for (var i = 0; i < frequencyData.length/2; i++) {
-					volume += frequencyData[i];
-				}
-				volume = volume/(frequencyData.length/2);
-				return (volume);
-			}
-			function getTreble() {
-				analyser.getByteFrequencyData(freqDataArr);
-				var frequencyData = freqDataArr;
-				var volume = 0;
-				for (var i = frequencyData.length/2; i < frequencyData.length; i++) {
-					volume += frequencyData[i];
-				}
-				volume = volume/(frequencyData.length/2);
-				return (volume);
-			}
-			function scalePoints(value) {
-				wave.material.size = value;
-			}
-			function audioUpdate() {
-				var bass = scaleBetween(getBass(), 2, 20, 0, 255);
-				var treble = (scaleBetween(getTreble(), .5, 3, 0, 255));
-				scalePoints(treble);
-				animateWave(bass);
-			}
-
 			// animate loop
 			var animate = function () {
 				controls.update();
@@ -215,7 +87,6 @@
 			};
 
 			animate();
-
 		</script>
 	</body>
 </html>
