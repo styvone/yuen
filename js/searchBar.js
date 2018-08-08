@@ -56,20 +56,18 @@ $('#searchBar').keyup(function(e) {
 					i++;
 				};
 			}
-			$('#searchBarDiv, #title, canvas').click(function(e) {
-				if (!document.getElementById('searchBar').disabled) {
-					if (mountDiv.firstChild) {
-						$('#searchBar').val('');
-						clearSearch();
-					}
-					if (!(mountDiv.firstChild) && $('#searchBar').val()) {
-						$('#searchBar').val('');
-					}
-				}
-			});
-			$('#searchBar').click(function(e) {
-				e.stopPropagation();
-			});
 		});
 	}
+});
+$('#searchBarDiv, #title, canvas').click(function(e) {
+	if (!document.getElementById('searchBar').disabled && mountDiv.firstChild) {
+		$('#searchBar').val('');
+		clearSearch();
+	}
+});
+$('#searchBar').click(function(e) {
+	e.stopPropagation();
+});
+$('#searchBar').focus(function(e) {
+	$('#searchBar').val('');
 });
