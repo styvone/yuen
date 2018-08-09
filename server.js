@@ -11,11 +11,8 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-app.get('/stream/:videoId', function (req, res) {
+app.get(/stream/:videoId, function (req, res) {
     try {
-
-    	console.log(res.get('Content-Type'));
-
     	youtubeStream(req.params.videoId).pipe(res);
     } catch (exception) {
         res.status(500).send(exception);
