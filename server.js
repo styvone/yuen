@@ -9,7 +9,7 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-app.get('/stream/:videoId', function (req, res) {
+app.get('https://yuen-soundxvisuals.herokuapp.com/stream/:videoId', function (req, res) {
     try {
     	youtubeStream(req.params.videoId).pipe(res);
     } catch (exception) {
