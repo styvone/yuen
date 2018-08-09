@@ -1,0 +1,118 @@
+body { 
+	margin: 0;
+}
+canvas { 
+	width: 100%;
+	height: 100%;
+}
+#title {
+	position: fixed;
+	width: 7vw;
+	height: auto;
+	left: 5px;
+	top: 5px;
+}
+#searchBar {
+	box-sizing:border-box;
+	font-family: 'Rubik', sans-serif;
+	height: 6vh;
+	font-size: 4vh;
+	width: 100%;
+}
+#inputWrapper{
+	padding: 0;
+}
+.dropElement {
+	font-family: 'Rubik', sans-serif;
+	list-style-type: none;
+	font-size: 4vh;
+	color: white;
+}
+li {
+	border: solid;
+	border-width: thin;
+	border-bottom: none;
+	background-color: black;
+	border-color: white;
+}
+li:last-child {
+	border: solid;
+	border-width: thin;
+	background-color: black;
+	border-color: white;
+}
+li:hover {
+	cursor: pointer;
+	background-color: white;
+	color: black;
+}
+#searchBarDiv {
+	position: fixed;
+	right: 5px;
+	top: 5px;
+	width: 35vw;
+	height: 40vh;
+}
+.spinner {
+	width: 5vw;
+	height: 6vh;
+	font-size: 2vh;
+	text-align: center;
+	position: absolute;
+	right: 0;
+	margin-top: 1vh;
+	display: none;
+}
+.spinner > div {
+  background-color: white;
+  height: 100%;
+  width: 0.3vw;
+  display: inline-block;
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+#pause-play {
+	width: 7vw;
+	height: 8vh;
+	font-size: 2vh;
+	text-align: center;
+	position: absolute;
+	right: 0;
+	display: none;
+}
+#pause-play-icon {
+	max-width: 100%;
+	max-height: 100%;
+}
+#pause-play-icon:hover {
+	cursor: pointer;
+}
