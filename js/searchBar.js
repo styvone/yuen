@@ -68,7 +68,7 @@ $('#searchBarDiv, #title, canvas').click(function(e) {
 		clearSearch();
 	}
 });
-$('#searchBar').click(function(e) {
+$('#searchBar, #pause-play-icon').click(function(e) {
 	e.stopPropagation();
 });
 $('#searchBar').focus(function(e) {
