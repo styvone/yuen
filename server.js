@@ -12,7 +12,7 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-app.get('/stream/:videoId', function (req, res) {
+app.get('/:videoId', function (req, res) {
     youtubeStream(req.url.slice(1)).pipe(res);
 });
 
