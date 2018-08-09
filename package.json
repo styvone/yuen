@@ -25,10 +25,11 @@
     "youtube-audio-stream": "^0.2.0",
     "ytdl-core": "^0.24.0"
   },
+  "engines": {
+    "node": "8.11.1",
+    "npm": "5.6.0"
+  },
   "scripts": {
     "start": "node server.js"
-  },
-  "engines": {
-    "node": "8.11.1"
   }
 }
