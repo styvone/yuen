@@ -13,7 +13,9 @@ app.get('/', function (req, res) {
 
 app.get('/stream/:videoId', function (req, res) {
     try {
-    	res = ({responseType: 'stream'});
+
+    	console.log(res.get('Content-Type'));
+
     	youtubeStream(req.params.videoId).pipe(res);
     } catch (exception) {
         res.status(500).send(exception);
