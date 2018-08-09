@@ -1,7 +1,5 @@
 var express = require('express');
 var youtubeStream = require('youtube-audio-stream');
-var path = require('path');
-var http = require('http');
 
 var app = express();
 
@@ -15,6 +13,7 @@ app.get('/', function (req, res) {
 
 app.get('/stream/:videoId', function (req, res) {
     try {
+    	res = ({responseType: 'stream'});
     	youtubeStream(req.params.videoId).pipe(res);
     } catch (exception) {
         res.status(500).send(exception);
