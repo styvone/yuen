@@ -1,3 +1,5 @@
+var http = require('http');
+
 var express = require('express');
 var youtubeStream = require('youtube-audio-stream');
 
