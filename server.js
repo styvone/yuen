@@ -9,6 +9,7 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
+/*
 app.get('/stream/:videoId', function (req, res) {
     try {
     	youtubeStream(req.params.videoId).pipe(res);
@@ -16,6 +17,7 @@ app.get('/stream/:videoId', function (req, res) {
         res.status(500).send(exception);
     }
 });
+*/
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('app is listening on port 3000!');
