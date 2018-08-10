@@ -16,6 +16,7 @@ function loadSound(vidID) {
 		request.responseType = "arraybuffer"; 
 		request.onload = function() {
 			var Data = request.response;
+			console.log(Data);
 			process(Data);
 		};
 		request.send();
