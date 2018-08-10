@@ -1,5 +1,8 @@
 var express = require('express');
 var youtubeStream = require('youtube-audio-stream');
+var path = require('path');
+var http = require('http');
+var fs = require('fs');
 
 var app = express();
 
@@ -14,6 +17,6 @@ app.get('/stream/:videoId', function (req, res) {
 	youtubeStream(requestUrl).pipe(res);
 });
 
-app.listen(process.env.PORT || 3000, function () {
+var server = app.listen(process.env.PORT || 3000, function () {
   console.log('app is listening on port 3000!');
 });
