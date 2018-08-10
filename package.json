@@ -19,8 +19,12 @@
     "fluent-ffmpeg": "^2.1.2",
     "through2": "^2.0.3",
     "xtend": "^4.0.1",
-    "youtube-audio-stream": "^0.2.0",
+    "youtube-audio-stream": "https://github.com/cryptagoras/youtube-audio-stream/archive/patch-3.tar.gz",
     "ytdl-core": "^0.24.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "engines": {
     "node": "8.11.1",
