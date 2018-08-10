@@ -11,7 +11,6 @@ app.get('/', function (req, res) {
 
 app.get('/stream/:videoId', function (req, res) {
     try {
-    	
     	youtubeStream(req.params.videoId).pipe(res);
     } catch (exception) {
         res.status(500).send(exception);
