@@ -14,8 +14,8 @@ app.get('/', function (req, res) {
 
 app.get('/stream/:videoId', function (req, res) {
 	var requestUrl = 'http://youtube.com/watch?v=' + req.params.videoId;
-	//youtubeStream(requestUrl).pipe(res);
-	res.send('Hello World!');
+	youtubeStream(requestUrl); //.pipe(res);
+	//res.send('Hello World!');
 });
 
 var server = app.listen(process.env.PORT || 3000, function () {
