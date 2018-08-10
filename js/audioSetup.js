@@ -13,7 +13,7 @@ function loadSound(vidID) {
 	.then(() => {
 		var request = new XMLHttpRequest();
 		request.open("GET", window.location.href+"stream/"+vidID, true); 
-		//request.responseType = "arraybuffer"; 
+		request.responseType = "arraybuffer"; 
 		request.onload = function() {
 			var Data = request.response;
 			process(Data);
