@@ -11,6 +11,7 @@ app.get('/', function (req, res) {
 
 app.get('/stream/:videoId', function (req, res) {
 	var id = req.params.videoId;
+	youtubeStream(id);
     //youtubeStream(req.params.videoId).pipe(res);
 });
 
