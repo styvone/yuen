@@ -10,13 +10,8 @@ app.get('/', function (req, res) {
 });
 
 app.get('/stream/:videoId', function (req, res) {
-
 	var id = req.params.videoId;
-	console.log('1');
-    var streaming = youtubeStream(id);
-    console.log('2');
-    var pipeIt = streaming.pipe(res);
-    console.log('3');
+    //youtubeStream(req.params.videoId).pipe(res);
 });
 
 app.listen(process.env.PORT || 3000, function () {
