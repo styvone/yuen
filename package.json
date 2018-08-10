@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "sound x visuals",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/styvone/yuen.git"
@@ -20,14 +17,16 @@
     "express": "^4.16.3",
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
-    "stream-to-array": "^2.3.0",
     "through2": "^2.0.3",
     "xtend": "^4.0.1",
-    "youtube-audio-stream": "https://github.com/cryptagoras/youtube-audio-stream/archive/patch-3.tar.gz",
+    "youtube-audio-stream": "^0.2.0",
     "ytdl-core": "^0.24.0"
   },
   "engines": {
     "node": "8.11.1",
     "npm": "5.6.0"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
