@@ -14,16 +14,17 @@
   },
   "homepage": "https://github.com/styvone/yuen#readme",
   "dependencies": {
+    "create-react-app": "1.5.2",
     "express": "^4.16.3",
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
+    "libs": "^0.1.2",
+    "n": "2.1.10",
+    "npm": "6.3.0",
     "through2": "^2.0.3",
     "xtend": "^4.0.1",
     "youtube-audio-stream": "^0.2.0",
-    "ytdl-core": "^0.24.0",
-    "create-react-app": "1.5.2",
-    "n":"2.1.10",
-    "npm":"6.3.0"
+    "ytdl-core": "^0.24.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
